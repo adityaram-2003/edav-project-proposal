@@ -1,0 +1,14 @@
+# Introduction
+
+**Wildfires** - a phenomenon that has become one of the biggest safety challenges, both environmental and public, in the recent years. 
+
+These wildfires usually erupt due to various conditions - ranging from sudden climate variations, longer drought periods, and also land use patterns. Understanding how, when, and where these fires occur is very crucial not just for exploration, analysis and documentation, but more for being prepared in case of sudden untimely fires, like the recent one that caused heavy losses in LA. Hence, I feel that satellite monitoring has become a major part of analysing fire data across different locations.
+
+I chose this topic because it can be understood that wildfire behavior is affected by multiple features, not just one. These features that affect wildfire occurrence include - thermal intensity, geometry, surface temperature, and also time of year. 
+
+With this analysis, I aim to answer questions such as: <br>
+- How does fire intensity cluster geographically across the nation? <br>
+- Are there any seasonal trends in the intensity of wildfires? <br>
+- Do confidence levels show any pattern between day and night observations?
+
+Hence, through this project, I aim to get a clearer picture of fires detected in the past year, building on all the factors that are affecting the occurrences of fires in different regions in the US. 

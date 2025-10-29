@@ -1,0 +1,29 @@
+project:
+  type: book
+  output-dir: docs
+
+execute:
+  echo: true
+
+book:
+  title: "Wildfire Analysis in the United States (2024–2025)"
+  author:
+    - Adityaram Komaraneni (ak5480)
+  repo-url: https://github.com/adityaram-2003/EDAV-Project-Proposal/tree/main/quarto-edav-template-main
+  date: today
+  page-footer:
+    right: |
+      This book was built with <a href="https://quarto.org/">Quarto</a>.
+  repo-actions: [edit, issue]
+  chapters:
+    - index.qmd
+    - data.qmd
+    # - results.qmd
+    # - conclusion.qmd
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+
+

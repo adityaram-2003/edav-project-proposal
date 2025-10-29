@@ -1,0 +1,68 @@
+# Data
+
+## Description
+
+I will focus on the **NASA Fire Information for Resource Management System (FIRMS)** dataset for this project.  
+
+This dataset combines two sources, derived from *Visible Infrared Imaging Radiometer Suite (VIIRS)* scanner present in the *NOAA-20 satellite*, which is jointly operated by *NASA* and the *National Oceanic and Atmospheric Administration (NOAA)*.
+
+We'll be using two CSV files, namely: <br>
+1. **fire_archive_J1V-C2_678806.csv**: includes verified rows after validation <br>
+2. **fire_nrt_J1V-C2_678806.csv**: has near real time rows that display data points before validation
+
+Each row in these files represents a fire occurrence that the satellite detected between the months **October 2024 and October 2025**.
+
+
+## Source
+
+- **Origin:** NASA’s *Fire Information for Resource Management System (FIRMS)*,  <br> [LINK] [https://firms.modaps.eosdis.nasa.gov/download/](https://firms.modaps.eosdis.nasa.gov/download/).  
+- **Method:** **VIIRS** system, using infrared and thermal radiance and temperature pixel flagging.  
+- **Resolution:** 375 m per pixel.  
+- **Frequency of collection:**  
+  - NRT data is refreshed every 3–6 hours.  
+  - Archive data is refreshed monthly. 
+- **Format:** CSV.  
+- **Dimensions:** 478186 rows (both files combined), 14 columns.
+
+
+## Key Variables
+
+| Column | Description |
+|:--|:--|
+| `latitude`, `longitude` | Coordinates of occurrence. |
+| `brightness` | Fire pixel temperature in K. |
+| `bright_t31` | Background surface temperature in K. |
+| `frp` | Fire radioactive power metric - alternative for fire intensity. |
+| `scan`, `track` | Track sampling intervals showing pixel sizes. |
+| `acq_date`, `acq_time` | Data collection dates and times in UTC format. |
+| `satellite`, `instrument` | Satellite and scanner names - N20 and VIIRS. |
+| `confidence` | Reliability of detection: low (l), nominal (n), high (h). |
+| `daynight` | Time of observation - Day (D) or Night (N). |
+| `type` | Fire source classification (0 = likely vegetation, 2 = real fire. etc). |
+| `version` | Processing version - 2 (only available in archive data). |
+
+
+## Data Preprocessing to be done
+
+1. **Schema alignment** – both datasets' column names and datatypes should be standardized to follow same format. 
+2. **Datetime creation** – `acq_date` and `acq_time` columns could be merged into a single `timestamp` field.  
+5. **Geographic filtering** –  coordinates can be restricted to only valid U.S. coordinates 
+6. **Concatenation** – both the datasets could be merged into a single full dataset.
+4. **Source tagging** – a new `source` column can be added in new dataset to distinguish between Archive vs NRT records.  
+
+
+## Issues/Problem with data
+
+| Problem | Description | Mitigation strategy|
+|:--|:--|:--|
+| **Geolocation noise** | Disturbances in pixels due to satellite orbits or visual terrain effects. | Filtering and bounding. |
+| **Cloud interference** | Presence of clouds may cover up surface heat signatures. | Aggregation on temporal data. |
+| **Duplicate detections** | Overlaps between Archive and NRT datasets | De-duplication. |
+| **Confidence variability** | Some “Low” confidence ranges might include false positives. | Restriction on visuals for “Nominal” and “High” confidence levels. |
+| **Missing values** | COuld encounter missing values in `frp`, `track`, and `scan` columns. | Imputation with mean or median. |
+
+
+## Summary
+
+This dataset is created with satellite data from NASA, hence, it provides high confidence data, and is regularly updated. This makes it ideal for exploring wildfire dynamics depending on various observed features.  
+Though it has small calibration limitations, it is still one of the most reliable datasets available for studying **fire occurrence** across the nation.

@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Wildfire Analysis in the United States (2024–2025)",
+    "section": "",
+    "text": "1 Introduction\nWildfires - a phenomenon that has become one of the biggest safety challenges, both environmental and public, in the recent years.\nThese wildfires usually erupt due to various conditions - ranging from sudden climate variations, longer drought periods, and also land use patterns. Understanding how, when, and where these fires occur is very crucial not just for exploration, analysis and documentation, but more for being prepared in case of sudden untimely fires, like the recent one that caused heavy losses in LA. Hence, I feel that satellite monitoring has become a major part of analysing fire data across different locations.\nI chose this topic because it can be understood that wildfire behavior is affected by multiple features, not just one. These features that affect wildfire occurrence include - thermal intensity, geometry, surface temperature, and also time of year.\nWith this analysis, I aim to answer questions such as:  - How does fire intensity cluster geographically across the nation?  - Are there any seasonal trends in the intensity of wildfires?  - Do confidence levels show any pattern between day and night observations?\nHence, through this project, I aim to get a clearer picture of fires detected in the past year, building on all the factors that are affecting the occurrences of fires in different regions in the US.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": "2  Data",
+    "section": "",
+    "text": "2.1 Description\nI will focus on the NASA Fire Information for Resource Management System (FIRMS) dataset for this project.\nThis dataset combines two sources, derived from Visible Infrared Imaging Radiometer Suite (VIIRS) scanner present in the NOAA-20 satellite, which is jointly operated by NASA and the National Oceanic and Atmospheric Administration (NOAA).\nWe’ll be using two CSV files, namely:  1. fire_archive_J1V-C2_678806.csv: includes verified rows after validation  2. fire_nrt_J1V-C2_678806.csv: has near real time rows that display data points before validation\nEach row in these files represents a fire occurrence that the satellite detected between the months October 2024 and October 2025.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
+    ]
+  },
+  {
+    "objectID": "data.html#source",
+    "href": "data.html#source",
+    "title": "2  Data",
+    "section": "2.2 Source",
+    "text": "2.2 Source\n\nOrigin: NASA’s Fire Information for Resource Management System (FIRMS),  [LINK] https://firms.modaps.eosdis.nasa.gov/download/.\n\nMethod: VIIRS system, using infrared and thermal radiance and temperature pixel flagging.\n\nResolution: 375 m per pixel.\n\nFrequency of collection:\n\nNRT data is refreshed every 3–6 hours.\n\nArchive data is refreshed monthly.\n\nFormat: CSV.\n\nDimensions: 478186 rows (both files combined), 14 columns.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
+    ]
+  },
+  {
+    "objectID": "data.html#key-variables",
+    "href": "data.html#key-variables",
+    "title": "2  Data",
+    "section": "2.3 Key Variables",
+    "text": "2.3 Key Variables\n\n\n\n\n\n\n\nColumn\nDescription\n\n\n\n\nlatitude, longitude\nCoordinates of occurrence.\n\n\nbrightness\nFire pixel temperature in K.\n\n\nbright_t31\nBackground surface temperature in K.\n\n\nfrp\nFire radioactive power metric - alternative for fire intensity.\n\n\nscan, track\nTrack sampling intervals showing pixel sizes.\n\n\nacq_date, acq_time\nData collection dates and times in UTC format.\n\n\nsatellite, instrument\nSatellite and scanner names - N20 and VIIRS.\n\n\nconfidence\nReliability of detection: low (l), nominal (n), high (h).\n\n\ndaynight\nTime of observation - Day (D) or Night (N).\n\n\ntype\nFire source classification (0 = likely vegetation, 2 = real fire. etc).\n\n\nversion\nProcessing version - 2 (only available in archive data).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
+    ]
+  },
+  {
+    "objectID": "data.html#data-preprocessing-to-be-done",
+    "href": "data.html#data-preprocessing-to-be-done",
+    "title": "2  Data",
+    "section": "2.4 Data Preprocessing to be done",
+    "text": "2.4 Data Preprocessing to be done\n\nSchema alignment – both datasets’ column names and datatypes should be standardized to follow same format.\nDatetime creation – acq_date and acq_time columns could be merged into a single timestamp field.\n\nGeographic filtering – coordinates can be restricted to only valid U.S. coordinates\nConcatenation – both the datasets could be merged into a single full dataset.\nSource tagging – a new source column can be added in new dataset to distinguish between Archive vs NRT records.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
+    ]
+  },
+  {
+    "objectID": "data.html#issuesproblem-with-data",
+    "href": "data.html#issuesproblem-with-data",
+    "title": "2  Data",
+    "section": "2.5 Issues/Problem with data",
+    "text": "2.5 Issues/Problem with data\n\n\n\n\n\n\n\n\nProblem\nDescription\nMitigation strategy\n\n\n\n\nGeolocation noise\nDisturbances in pixels due to satellite orbits or visual terrain effects.\nFiltering and bounding.\n\n\nCloud interference\nPresence of clouds may cover up surface heat signatures.\nAggregation on temporal data.\n\n\nDuplicate detections\nOverlaps between Archive and NRT datasets\nDe-duplication.\n\n\nConfidence variability\nSome “Low” confidence ranges might include false positives.\nRestriction on visuals for “Nominal” and “High” confidence levels.\n\n\nMissing values\nCOuld encounter missing values in frp, track, and scan columns.\nImputation with mean or median.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
+    ]
+  },
+  {
+    "objectID": "data.html#summary",
+    "href": "data.html#summary",
+    "title": "2  Data",
+    "section": "2.6 Summary",
+    "text": "2.6 Summary\nThis dataset is created with satellite data from NASA, hence, it provides high confidence data, and is regularly updated. This makes it ideal for exploring wildfire dynamics depending on various observed features.\nThough it has small calibration limitations, it is still one of the most reliable datasets available for studying fire occurrence across the nation.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
+    ]
+  }
+]
